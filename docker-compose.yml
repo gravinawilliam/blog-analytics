@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  blog-analytics:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: blog-analytics:latest
+    environment:
+      # DB_DEFAULT_PASSWORD: ${DB_DEFAULT_PASSWORD}
+      # DB_DEFAULT_USERNAME: ${DB_DEFAULT_USERNAME}
+      # DB_DEFAULT_DATABASE: ${DB_DEFAULT_DATABASE}
+      # DB_DEFAULT_TYPE: ${DB_DEFAULT_TYPE}
+      # DB_DEFAULT_HOST: ${DB_DEFAULT_HOST}
+      # DB_DEFAULT_PORT: ${DB_DEFAULT_PORT}
+      API_PORT: ${API_PORT}
+      NODE_ENV: ${NODE_ENV}
+      SENTRY_DSN: ${SENTRY_DSN}
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    container_name: blog-analytics
+    networks:
+      - kong-net
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+networks:
+  kong-net:
+    external: true
